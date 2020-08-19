@@ -54,6 +54,16 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
+        # create an empty stack and pop the starting_vertex
+        # create an empty set to track visited verticies
+
+        # while the stack is not empty:
+        # get current vertex
+        # check if current vertex has not been visited
+        # print the current vertex
+        # mark the current vertex as visited
+        # add the current vertex to visited
+        # pop up all the current vertex's neighbors
         pass  # TODO
 
     def dft_recursive(self, starting_vertex):
@@ -84,13 +94,16 @@ class Graph:
 
         # while the queue is not empty:
         # get current vertex
-        # check if current vertex has not been visited
+        # set the current vertex to the last element of the path
         # check if the current vertex is destination
         # if it is, stop and return
         # print the current vertex
         # mark the current vertex as visited
         # add the current vertex to visited
-        # queue up all the current vertex's neighbors
+        # queue up new paths with each neighbor:
+        # take current path
+        # append the neighbor to it
+        # que up new Path
         pass  # TODO
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
