@@ -38,16 +38,23 @@ class Graph:
         """
 
         # create an empty queue and enqueue the starting_vertex
+        que = []
         # create an empty set to track visited verticies
-
+        que.insert(0, starting_vertex)
+        tracker = set()
         # while the queue is not empty:
-        # get current vertex
-        # check if current vertex has not been visited
-        # print the current vertex
-        # mark the current vertex as visited
-        # add the current vertex to visited
-        # queue up all the current vertex's neighbors
-        pass
+        while len(que) != 0:
+            # get current vertex
+            current = que[-1]
+            que.pop()
+            # check if current vertex has not been visited
+            if current not in tracker:
+                # mark the current vertex as visited
+                tracker.add(current)
+                # print the current vertex
+                print(current)
+                for values in self.vertices[current]:
+                    que.insert(0, values)
 
     def dft(self, starting_vertex):
         """
@@ -55,16 +62,23 @@ class Graph:
         beginning from starting_vertex.
         """
         # create an empty stack and pop the starting_vertex
+        stack = []
         # create an empty set to track visited verticies
-
+        stack.insert(0, starting_vertex)
+        tracker = set()
         # while the stack is not empty:
-        # get current vertex
-        # check if current vertex has not been visited
-        # print the current vertex
-        # mark the current vertex as visited
-        # add the current vertex to visited
-        # pop up all the current vertex's neighbors
-        pass  # TODO
+        while len(stack) != 0:
+            # get current vertex
+            current = stack[0]
+            stack.pop(0)
+            # check if current vertex has not been visited
+            if current not in tracker:
+                # mark the current vertex as visited
+                tracker.add(current)
+                # print the current vertex
+                print(current)
+                for values in self.vertices[current]:
+                    stack.insert(0, values)
 
     def dft_recursive(self, starting_vertex):
         """
@@ -142,7 +156,7 @@ if __name__ == '__main__':
     Should print:
         {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
     '''
-    print(graph.vertices)
+    # print(graph.vertices)
 
     '''
     Valid BFT paths:
