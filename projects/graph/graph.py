@@ -80,7 +80,7 @@ class Graph:
                 for values in self.vertices[current]:
                     stack.insert(0, values)
 
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, starting_vertex, visited=set()):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
@@ -151,7 +151,7 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        pass
 
 
 if __name__ == '__main__':
