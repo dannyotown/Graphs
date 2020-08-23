@@ -37,6 +37,7 @@ def earliest_ancestor(ancestors, starting_node):
             if current_person not in visited:
                 # add current person to visited
                 visited.add(current_person)
+                # if they are parent, continue
                 if current_person not in a_map:
                     continue
                 else:
