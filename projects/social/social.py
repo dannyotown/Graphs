@@ -101,11 +101,11 @@ class SocialGraph:
                 que.pop(-1)
                 # get user's friends
                 for key in self.friendships[current_user]:
-                    # add friend to visited and add current path + key
-                    if key not in visited:
-                        new_path = current_path + [key]
-                        visited[key] = new_path
-                        que.insert(0, new_path)
+                    # add friend to visited and add current path to visited
+                    if key not in visited and key != user_id:
+                        # add friend to visited w/ current path
+                        visited[key] = current_path
+                        que.insert(0, current_path + [key])
 
         return visited
 
