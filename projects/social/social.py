@@ -5,6 +5,9 @@ class User:
     def __init__(self, name):
         self.name = name
 
+    def __str__(self):
+        return f'{self.name}'
+
 
 class SocialGraph:
     def __init__(self):
@@ -79,6 +82,31 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        # see if user in self.users
+        if user_id not in self.users:
+            # if not, print error message
+            print('user not in the social network')
+        else:
+            # create que
+            que = []
+            # insert userid in que
+            que.insert(0, [user_id])
+            # while que length > 0
+            while len(que) > 0:
+                # get last path
+                current_path = que[-1]
+                # get current user
+                current_user = current_path[-1]
+                # pop userid
+                que.pop(-1)
+                # get user's friends
+                for key in self.friendships[current_user]:
+                    # add friend to visited and add current path + key
+                    if key not in visited:
+                        new_path = current_path + [key]
+                        visited[key] = new_path
+                        que.insert(0, new_path)
+
         return visited
 
 
