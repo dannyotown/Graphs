@@ -42,14 +42,9 @@ def earliest_ancestor(ancestors, starting_node):
                     continue
                 else:
                     for value in a_map[current_person]:
-                        # add parents to longest path and stack
+                        # add parents to stack
                         stack.insert(0, current_path + [value])
+                        # add parents to longest path
                         longest_path.append(current_path + [value])
 
     return longest_path[-1][-1]
-
-
-test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7),
-                  (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
-print(earliest_ancestor(test_ancestors, 3))  # 10
-# print(earliest_ancestor(test_ancestors, 2))  # -1
