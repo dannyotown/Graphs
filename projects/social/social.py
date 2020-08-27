@@ -99,12 +99,11 @@ class SocialGraph:
                 current_user = current_path[-1]
                 # pop userid
                 que.pop(-1)
+                if current_user not in visited:
+                    visited[current_user] = current_path
                 # get user's friends
-                for key in self.friendships[current_user]:
-                    # add friend to visited and add current path to visited
-                    if key not in visited and key != user_id:
+                    for key in self.friendships[current_user]:
                         # add friend to visited w/ current path
-                        visited[key] = current_path
                         que.insert(0, current_path + [key])
 
         return visited
@@ -112,7 +111,7 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
+    sg.populate_graph(5, 2)
     print(sg.friendships)
     connections = sg.get_all_social_paths(1)
     print(connections)
