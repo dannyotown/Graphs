@@ -97,7 +97,7 @@ class Graph:
         """
         # create an empty queue and enqueue the starting_vertex
         que = []
-        que.insert(0, [starting_vertex])
+        que.append([starting_vertex])
         # create an empty set to track visited verticies
         tracker = set()
         # while the queue is not empty:
