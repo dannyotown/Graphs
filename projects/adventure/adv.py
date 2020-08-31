@@ -41,11 +41,9 @@ def traverse_world():
     while len(visited) != len(room_graph):
         # search as deep as possible (DFS)
         world_dft(visited, last_move)
-        print(visited)
         # find room with undiscovered path
         find_new_path = world_bfs(visited)
         # if no path, all rooms have been visited
-        print(find_new_path, player.current_room.id)
         if len(find_new_path) == 0:
             # return traversal list
             return traversal_path
@@ -103,7 +101,6 @@ def world_dft(visited, last_move):
                     random_path.append(direction)
         if len(random_path) != 0:
             random_direction = random.choice(random_path)
-            print(random_direction)
             # check to make sure we haven't visited the room yet
             if current_room not in stack_visit:
                 # add to visit list
@@ -120,7 +117,6 @@ def world_dft(visited, last_move):
                 last_move = (random_direction, old_room)
                 # insert new value into stack
                 stack.insert(0, player.current_room.id)
-                random_path = []
         # otherwise you are at exit
         else:
             return player.current_room.id
