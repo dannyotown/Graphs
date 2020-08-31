@@ -11,10 +11,10 @@ world = World()
 
 # You may uncomment the smaller graphs for development and testing purposes.
 # map_file = "maps/test_line.txt"
-map_file = "maps/test_cross.txt"
+# map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
-# map_file = "maps/main_maze.txt"
+map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
 room_graph = literal_eval(open(map_file, "r").read())
@@ -36,30 +36,32 @@ def traverse_world():
     visited = dict()
     # last move
     last_move = (None, None)
+    # starting room
     # while visited rooms is less than room graph
-    count = 0
-    while count < 25:
+    while len(visited) != len(room_graph):
         # search as deep as possible (DFS)
         world_dft(visited, last_move)
+        print(visited)
         # find room with undiscovered path
         find_new_path = world_bfs(visited)
         # if no path, all rooms have been visited
+        print(find_new_path, player.current_room.id)
         if len(find_new_path) == 0:
             # return traversal list
             return traversal_path
         else:
             # otherwise move player to room with undiscovered path
-            for move in find_new_path:
-                # hold old room
-                old_room = player.current_room.id
-                # update last move
-                last_move = (move, old_room)
-                # move player
-                player.travel(move)
-                # add to traversal path
-                traversal_path.append(move)
-        count += 1
-    print(visited, 'vis')
+            for moves in find_new_path:
+                for direction, value in visited[player.current_room.id].items():
+                    if moves == value:
+                        # hold old room
+                        old_room = player.current_room.id
+                        # update last move
+                        last_move = (direction, old_room)
+                        # move player
+                        player.travel(direction)
+                        # add to traversal path
+                        traversal_path.append(direction)
 
 
 def world_dft(visited, last_move):
@@ -82,7 +84,7 @@ def world_dft(visited, last_move):
             # get rooms exits
             current_room_exits = player.current_room.get_exits()
           # otherwise create room in visited with exit ?s
-            visited[player.current_room.id] = {}
+            visited[current_room] = {}
            # for exit rooms in visited
             if last_move[0] is not None:
                 visited[current_room][opp_directions[last_move[0]]
@@ -94,7 +96,9 @@ def world_dft(visited, last_move):
                     random_path.append(direction)
         else:
             # for directions in room visited
-            for direction, value in visited[player.current_room.id].items():
+            visited[current_room][opp_directions[last_move[0]]
+                                  ] = last_move[1]
+            for direction, value in visited[current_room].items():
                 if value == '?':
                     random_path.append(direction)
         if len(random_path) != 0:
@@ -116,43 +120,32 @@ def world_dft(visited, last_move):
                 last_move = (random_direction, old_room)
                 # insert new value into stack
                 stack.insert(0, player.current_room.id)
-
+                random_path = []
         # otherwise you are at exit
         else:
             return player.current_room.id
 
 
 def world_bfs(visited):
-    # create que
     que = []
-    # moves
-    moves = []
-    # create visited
-    que_visited = set()
-    # insert current room into que
     que.append([player.current_room.id])
-    # while que has room
+    # create an empty set to track visited verticies
+    tracker = set()
+    # while the queue is not empty:
     while len(que) != 0:
-        # get current que path
-        current_que_path = que[0]
-        # get current que room
-        current_que_room = current_que_path[-1]
-        # pop off que
+        # get current vertex path
+        current_path = que[0]
+        current_vertex = current_path[-1]
         que.pop(0)
-        # if it hasn't been visited
-        if current_que_room not in que_visited:
-            # if its keys have question marks
-            for direction, value in visited[current_que_room].items():
-                if value == '?' and value not in que_visited:
-                    print(visited)
-                    print(player.current_room.id)
-                    print(moves)
-                    return moves
-                else:
-                    if value not in que_visited:
-                        moves.append(direction)
-                        que.append(current_que_path+[value])
-                        que_visited.add(current_que_room)
+        # check if current vertex has not been visited
+        if current_vertex not in tracker:
+            # mark the current vertex as visited
+            tracker.add(current_vertex)
+            # Check if the current vertex is destination and return
+            for value in visited[current_vertex].values():
+                que.append(current_path + [value])
+                if value == '?':
+                    return current_path[1:]
     return []
 
 
